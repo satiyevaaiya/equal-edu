@@ -431,4 +431,4 @@ export default function PercentagesPage() {
       </section>
     </main>
   );
-}ыы
+}
