@@ -5,7 +5,8 @@ export default function PreparationPage() {
     {
       title: "Проценты",
       description: "Проценты, скидки и нахождение части от числа.",
-    },
+      link: "/preparation/percentages",
+    },ы
     {
       title: "Площадь и периметр",
       description: "Формулы площади и периметра основных фигур.",
