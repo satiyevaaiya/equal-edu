@@ -75,7 +75,7 @@ export default function PercentagesPage() {
       <section className="px-6 pb-12 pt-8 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-6xl">
           <Link
-            href="/preparation"
+            href="/preparation/percentages"
             className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-dark shadow-sm transition hover:-translate-y-0.5"
           >
             ← Все темы
