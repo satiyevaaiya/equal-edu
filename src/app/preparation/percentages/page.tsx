@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 const questions = [
@@ -28,45 +29,16 @@ const questions = [
     explanation: "15% от 200 = 30. Затем 200 − 30 = 170.",
   },
   {
-    question:
-      "В классе 30 учеников. 40% из них занимаются спортом. Сколько это учеников?",
-    options: ["10", "12", "14", "16"],
+    question: "В классе 25 учеников. 40% из них занимаются спортом. Сколько это учеников?",
+    options: ["8", "10", "12", "15"],
     answer: 1,
-    explanation: "30 × 40/100 = 12 учеников.",
+    explanation: "40% = 0,4. 25 × 0,4 = 10.",
   },
   {
-    question: "Цена товара была 4000 тг. После скидки 25% сколько он стоит?",
-    options: ["2500 тг", "3000 тг", "3200 тг", "3500 тг"],
-    answer: 1,
-    explanation: "25% от 4000 = 1000. 4000 − 1000 = 3000 тг.",
-  },
-  {
-    question: "12 — это сколько процентов от 60?",
-    options: ["10%", "15%", "20%", "25%"],
+    question: "Число 60 составляет 30% от какого числа?",
+    options: ["120", "180", "200", "240"],
     answer: 2,
-    explanation: "12 : 60 × 100% = 20%.",
-  },
-  {
-    question: "Если 30% числа равны 45, чему равно всё число?",
-    options: ["120", "135", "150", "180"],
-    answer: 2,
-    explanation: "45 : 0,3 = 150.",
-  },
-  {
-    question:
-      "В магазине было 500 товаров. Продали 60%. Сколько товаров осталось?",
-    options: ["150", "200", "250", "300"],
-    answer: 1,
-    explanation:
-      "Продали 500 × 0,6 = 300 товаров. Осталось 500 − 300 = 200.",
-  },
-  {
-    question:
-      "Зарплата 100 000 тг увеличилась на 10%. Какой стала зарплата?",
-    options: ["105 000 тг", "110 000 тг", "115 000 тг", "120 000 тг"],
-    answer: 1,
-    explanation:
-      "10% от 100 000 = 10 000. Новая зарплата = 100 000 + 10 000 = 110 000 тг.",
+    explanation: "60 : 0,3 = 200.",
   },
 ];
 
@@ -74,255 +46,238 @@ export default function PercentagesPage() {
   const [answers, setAnswers] = useState<number[]>([]);
   const [submitted, setSubmitted] = useState(false);
 
-  const chooseAnswer = (questionIndex: number, answerIndex: number) => {
+  const chooseAnswer = (questionIndex: number, optionIndex: number) => {
     if (submitted) return;
 
-    const newAnswers = [...answers];
-    newAnswers[questionIndex] = answerIndex;
-    setAnswers(newAnswers);
+    setAnswers((current) => {
+      const updated = [...current];
+      updated[questionIndex] = optionIndex;
+      return updated;
+    });
   };
 
-  const submitTest = () => {
-    if (!allAnswered) return;
-
+  const checkAnswers = () => {
     setSubmitted(true);
-
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth",
-      });
-    }, 100);
   };
 
-  const restartTest = () => {
+  const resetPractice = () => {
     setAnswers([]);
     setSubmitted(false);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
   };
 
   const score = questions.reduce((total, question, index) => {
     return total + (answers[index] === question.answer ? 1 : 0);
   }, 0);
 
-  const allAnswered = answers.length === questions.length;
-
   return (
-    <main className="min-h-screen bg-cream px-5 py-10 sm:px-8 sm:py-14">
-      <div className="mx-auto max-w-5xl">
+    <main className="min-h-screen bg-cream text-dark">
+      {/* HEADER */}
+      <section className="px-6 pb-12 pt-8 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-6xl">
+          <Link
+            href="/preparation"
+            className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-dark shadow-sm transition hover:-translate-y-0.5"
+          >
+            ← Все темы
+          </Link>
 
-        {/* HEADER */}
-        <header className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-purple">
-            Equal Ed · Математика
-          </p>
-
-          <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-dark sm:text-6xl">
-            Проценты
-          </h1>
-
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-dark/65">
-            Научимся находить процент от числа, определять процент одного
-            числа от другого и решать задачи со скидками и изменениями.
-          </p>
-        </header>
-
-        {/* INTRO */}
-        <section className="mt-10 rounded-[2rem] bg-dark p-6 text-cream sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-lime">
-            Самое главное
-          </p>
-
-          <h2 className="mt-3 font-display text-3xl font-semibold">
-            Что такое процент?
-          </h2>
-
-          <p className="mt-5 text-lg leading-8 text-cream/75">
-            Процент — это одна сотая часть целого.
-          </p>
-
-          <div className="mt-6 rounded-2xl bg-white/10 p-5 text-center">
-            <p className="font-display text-5xl font-semibold">
-              1% = 1/100
+          <div className="mt-10 max-w-4xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-purple">
+              Подготовка · Математика
             </p>
 
-            <p className="mt-4 text-cream/70">
-              Поэтому 25% = 25/100 = 1/4.
+            <h1 className="mt-4 font-display text-5xl font-semibold leading-tight sm:text-6xl">
+              Проценты
+            </h1>
+
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-dark/65">
+              Разберём, как находить процент от числа, само число по его
+              проценту, а также как увеличивать и уменьшать числа на процент.
             </p>
           </div>
+        </div>
+      </section>
 
-          <p className="mt-5 text-center text-cream/75">
-            Знак процента —{" "}
-            <strong className="text-cream">%</strong>.
-          </p>
-        </section>
+      {/* THEORY */}
+      <section className="px-6 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-6 lg:grid-cols-2">
+            {/* CARD 1 */}
+            <article className="rounded-[2rem] bg-white p-7 shadow-sm sm:p-9">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-lime text-xl font-bold">
+                01
+              </div>
 
-        {/* THEORY */}
-        <section className="mt-8 space-y-5">
+              <h2 className="mt-6 font-display text-2xl font-semibold">
+                Что такое процент?
+              </h2>
 
-          <TheoryCard number="1" title="Как найти процент от числа">
-            <p>
-              Чтобы найти процент от числа, нужно умножить число на
-              процент, записанный в виде дроби.
+              <p className="mt-4 leading-7 text-dark/65">
+                Процент — это одна сотая часть числа. Поэтому
+                <strong className="text-dark"> 1% = 1/100</strong>.
+              </p>
+
+              <div className="mt-6 rounded-2xl bg-cream p-5">
+                <p className="font-semibold">Полезно помнить:</p>
+
+                <div className="mt-4 space-y-2 text-dark/70">
+                  <p>1% = 0,01</p>
+                  <p>10% = 0,1</p>
+                  <p>25% = 0,25</p>
+                  <p>50% = 0,5</p>
+                  <p>100% = 1</p>
+                </div>
+              </div>
+            </article>
+
+            {/* CARD 2 */}
+            <article className="rounded-[2rem] bg-white p-7 shadow-sm sm:p-9">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-lime text-xl font-bold">
+                02
+              </div>
+
+              <h2 className="mt-6 font-display text-2xl font-semibold">
+                Как найти процент от числа?
+              </h2>
+
+              <p className="mt-4 leading-7 text-dark/65">
+                Чтобы найти процент от числа, переведи процент в десятичную
+                дробь и умножь число на неё.
+              </p>
+
+              <div className="mt-6 rounded-2xl bg-cream p-5">
+                <p className="font-semibold">Формула</p>
+
+                <p className="mt-3 text-xl font-semibold">
+                  a% от b = b × a / 100
+                </p>
+
+                <p className="mt-4 text-sm text-dark/60">
+                  Например: 20% от 150 = 150 × 20 / 100 = 30.
+                </p>
+              </div>
+            </article>
+
+            {/* CARD 3 */}
+            <article className="rounded-[2rem] bg-white p-7 shadow-sm sm:p-9">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-lime text-xl font-bold">
+                03
+              </div>
+
+              <h2 className="mt-6 font-display text-2xl font-semibold">
+                Как найти число по его проценту?
+              </h2>
+
+              <p className="mt-4 leading-7 text-dark/65">
+                Если известно, сколько составляет определённый процент, можно
+                найти исходное число.
+              </p>
+
+              <div className="mt-6 rounded-2xl bg-cream p-5">
+                <p className="font-semibold">Пример</p>
+
+                <p className="mt-3 leading-7">
+                  30% числа = 45
+                </p>
+
+                <p className="mt-2 text-xl font-semibold">
+                  45 : 0,3 = 150
+                </p>
+
+                <p className="mt-4 text-sm text-dark/60">
+                  Значит, исходное число равно 150.
+                </p>
+              </div>
+            </article>
+
+            {/* CARD 4 */}
+            <article className="rounded-[2rem] bg-white p-7 shadow-sm sm:p-9">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-lime text-xl font-bold">
+                04
+              </div>
+
+              <h2 className="mt-6 font-display text-2xl font-semibold">
+                Увеличение и уменьшение на процент
+              </h2>
+
+              <p className="mt-4 leading-7 text-dark/65">
+                Если число увеличивают на процент, мы прибавляем найденную
+                часть. Если уменьшают — вычитаем её.
+              </p>
+
+              <div className="mt-6 space-y-4">
+                <div className="rounded-2xl bg-cream p-5">
+                  <p className="font-semibold">Увеличение</p>
+                  <p className="mt-2 text-dark/70">
+                    50 увеличили на 20%:
+                  </p>
+                  <p className="mt-2 font-semibold">
+                    50 + 50 × 0,2 = 60
+                  </p>
+                </div>
+
+                <div className="rounded-2xl bg-cream p-5">
+                  <p className="font-semibold">Уменьшение</p>
+                  <p className="mt-2 text-dark/70">
+                    200 уменьшили на 15%:
+                  </p>
+                  <p className="mt-2 font-semibold">
+                    200 − 200 × 0,15 = 170
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* QUICK RULE */}
+      <section className="px-6 py-14 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="rounded-[2rem] bg-purple p-8 text-cream sm:p-10">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-lime">
+              Запомни
             </p>
 
-            <Example>
-              20% от 150 = 150 × 20/100 = 30
-            </Example>
+            <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
+              Проценты становятся проще, если переводить их в дробь.
+            </h2>
 
-            <p className="mt-5 text-sm text-dark/60">
-              Можно сначала перевести процент в десятичную дробь:
-              20% = 0,2.
-            </p>
-          </TheoryCard>
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              <div className="rounded-2xl bg-white/10 p-5">
+                <p className="text-2xl font-semibold">25%</p>
+                <p className="mt-2 text-cream/70">= 0,25</p>
+              </div>
 
-          <TheoryCard number="2" title="Перевод процентов в число">
-            <p>
-              Чтобы перевести процент в десятичную дробь, нужно разделить
-              его на 100.
-            </p>
+              <div className="rounded-2xl bg-white/10 p-5">
+                <p className="text-2xl font-semibold">40%</p>
+                <p className="mt-2 text-cream/70">= 0,4</p>
+              </div>
 
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              <Example>10% = 0,1</Example>
-              <Example>25% = 0,25</Example>
-              <Example>75% = 0,75</Example>
+              <div className="rounded-2xl bg-white/10 p-5">
+                <p className="text-2xl font-semibold">75%</p>
+                <p className="mt-2 text-cream/70">= 0,75</p>
+              </div>
             </div>
-          </TheoryCard>
+          </div>
+        </div>
+      </section>
 
-          <TheoryCard
-            number="3"
-            title="Как узнать, сколько процентов одно число составляет от другого"
-          >
-            <p>
-              Нужно разделить первое число на второе и умножить результат
-              на 100%.
-            </p>
-
-            <Example>
-              20 из 80 → 20/80 × 100% = 25%
-            </Example>
-
-            <p className="mt-5 text-sm text-dark/60">
-              Значит, 20 составляет 25% от 80.
-            </p>
-          </TheoryCard>
-
-          <TheoryCard number="4" title="Увеличение числа на процент">
-            <p>
-              Чтобы увеличить число на определённый процент, сначала
-              находим этот процент от числа, а затем прибавляем его.
-            </p>
-
-            <Example>
-              200 увеличили на 10% → 20
-            </Example>
-
-            <p className="mt-5">
-              Теперь прибавляем найденное значение:
-            </p>
-
-            <Example>
-              200 + 20 = 220
-            </Example>
-
-            <p className="mt-4 text-sm text-dark/60">
-              Значит, после увеличения на 10% получаем 220.
-            </p>
-          </TheoryCard>
-
-          <TheoryCard number="5" title="Уменьшение числа на процент">
-            <p>
-              Чтобы уменьшить число на определённый процент, сначала
-              находим этот процент от числа, а затем вычитаем его.
-            </p>
-
-            <Example>
-              500 уменьшили на 20% → 100
-            </Example>
-
-            <p className="mt-5">
-              Вычитаем найденное значение из исходного числа:
-            </p>
-
-            <Example>
-              500 − 100 = 400
-            </Example>
-
-            <p className="mt-4 text-sm text-dark/60">
-              Значит, после уменьшения на 20% получаем 400.
-            </p>
-          </TheoryCard>
-
-          <TheoryCard number="6" title="Скидки">
-            <p>
-              Скидка — это уменьшение первоначальной цены на определённый
-              процент.
-            </p>
-
-            <Example>
-              4000 тг − 25% = 3000 тг
-            </Example>
-
-            <p className="mt-5 text-sm text-dark/60">
-              Сначала найдём размер скидки:
-              4000 × 25/100 = 1000 тг.
-            </p>
-
-            <p className="mt-2 text-sm text-dark/60">
-              Затем: 4000 − 1000 = 3000 тг.
-            </p>
-          </TheoryCard>
-
-          <TheoryCard number="7" title="Проценты в реальной жизни">
-            <p>
-              Проценты встречаются в скидках, результатах тестов,
-              статистике, банковских расчётах и других ситуациях.
-            </p>
-
-            <Example>
-              80% от 20 вопросов = 16 правильных ответов
-            </Example>
-
-            <p className="mt-4 text-sm text-dark/60">
-              20 × 80/100 = 16.
-            </p>
-          </TheoryCard>
-
-          <TheoryCard number="8" title="Как найти целое по его проценту">
-            <p>
-              Если известно, чему равен определённый процент числа, можно
-              найти всё число.
-            </p>
-
-            <Example>
-              30% числа = 45 → 45 : 0,3 = 150
-            </Example>
-
-            <p className="mt-4 text-sm text-dark/60">
-              Значит, исходное число равно 150.
-            </p>
-          </TheoryCard>
-
-        </section>
-
-        {/* PRACTICE */}
-        <section className="mt-14">
+      {/* PRACTICE */}
+      <section className="px-6 pb-20 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-6xl">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-purple">
               Практика
             </p>
 
-            <h2 className="mt-3 font-display text-3xl font-semibold text-dark sm:text-4xl">
+            <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">
               Проверь, насколько хорошо ты понял тему
             </h2>
 
             <p className="mx-auto mt-4 max-w-2xl text-dark/60">
-              Реши все задания самостоятельно, а затем нажми
-              «Проверить ответы».
+              Реши задания самостоятельно, а затем нажми «Проверить
+              ответы».
             </p>
           </div>
 
@@ -340,7 +295,7 @@ export default function PercentagesPage() {
                       {questionIndex + 1}
                     </span>
 
-                    <h3 className="text-lg font-semibold leading-7 text-dark">
+                    <h3 className="text-lg font-semibold leading-7">
                       {question.question}
                     </h3>
                   </div>
@@ -348,10 +303,8 @@ export default function PercentagesPage() {
                   <div className="mt-6 grid gap-3 sm:grid-cols-2">
                     {question.options.map((option, optionIndex) => {
                       const selected = selectedAnswer === optionIndex;
-
                       const correct =
                         submitted && optionIndex === question.answer;
-
                       const wrong =
                         submitted &&
                         selected &&
@@ -368,10 +321,10 @@ export default function PercentagesPage() {
                             correct
                               ? "border-green-500 bg-green-50"
                               : wrong
-                              ? "border-red-400 bg-red-50"
-                              : selected
-                              ? "border-purple bg-purple/10 text-purple"
-                              : "border-gray-200 hover:border-purple/40"
+                                ? "border-red-400 bg-red-50"
+                                : selected
+                                  ? "border-purple bg-purple/10 text-purple"
+                                  : "border-gray-200 hover:border-purple/40"
                           }`}
                         >
                           <span className="font-semibold">
@@ -400,10 +353,10 @@ export default function PercentagesPage() {
                       >
                         {selectedAnswer === question.answer
                           ? "✓ Правильно!"
-                          : "✕ Пока неправильно"}
+                          : "✕ Пока не получилось"}
                       </p>
 
-                      <p className="mt-2 text-sm leading-6 text-dark/65">
+                      <p className="mt-2 text-sm leading-6 text-dark/70">
                         {question.explanation}
                       </p>
                     </div>
@@ -414,106 +367,68 @@ export default function PercentagesPage() {
           </div>
 
           {/* RESULT */}
-          <div className="mt-8">
-            {!submitted ? (
-              <div className="rounded-[2rem] bg-dark p-6 text-center text-cream sm:p-8">
-                <p className="text-sm text-cream/60">
-                  Отвечено: {answers.length} из {questions.length}
+          {submitted && (
+            <div className="mt-8 rounded-[2rem] bg-white p-8 text-center shadow-sm">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-purple">
+                Результат
+              </p>
+
+              <h3 className="mt-3 font-display text-4xl font-semibold">
+                {score} из {questions.length}
+              </h3>
+
+              <p className="mx-auto mt-3 max-w-xl text-dark/60">
+                {score === questions.length
+                  ? "Отличный результат! Ты уверенно справляешься с процентами."
+                  : score >= 4
+                    ? "Хороший результат! Повтори несколько формул и попробуй ещё раз."
+                    : "Ничего страшного. Вернись к теории и попробуй решить задания ещё раз."}
+              </p>
+
+              <button
+                type="button"
+                onClick={resetPractice}
+                className="mt-6 rounded-full bg-purple px-6 py-3 font-semibold text-cream transition hover:-translate-y-0.5"
+              >
+                Пройти ещё раз
+              </button>
+            </div>
+          )}
+
+          {!submitted && (
+            <div className="mt-8 text-center">
+              <button
+                type="button"
+                onClick={checkAnswers}
+                disabled={answers.length !== questions.length}
+                className={`rounded-full px-8 py-4 font-semibold transition ${
+                  answers.length === questions.length
+                    ? "bg-lime text-dark hover:-translate-y-0.5"
+                    : "cursor-not-allowed bg-gray-200 text-gray-400"
+                }`}
+              >
+                Проверить ответы
+              </button>
+
+              {answers.length !== questions.length && (
+                <p className="mt-3 text-sm text-dark/50">
+                  Ответь на все вопросы, чтобы проверить результат.
                 </p>
+              )}
+            </div>
+          )}
 
-                <button
-                  type="button"
-                  onClick={submitTest}
-                  disabled={!allAnswered}
-                  className="mt-5 rounded-full bg-lime px-8 py-4 font-semibold text-dark transition hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  Проверить ответы
-                </button>
-
-                {!allAnswered && (
-                  <p className="mt-3 text-sm text-cream/50">
-                    Ответь на все вопросы, чтобы проверить результат.
-                  </p>
-                )}
-              </div>
-            ) : (
-              <div className="rounded-[2rem] bg-purple p-8 text-center text-cream sm:p-10">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-lime">
-                  Результат
-                </p>
-
-                <p className="mt-3 font-display text-6xl font-semibold">
-                  {score}/{questions.length}
-                </p>
-
-                <p className="mt-3 text-cream/75">
-                  {score === questions.length
-                    ? "Отлично! Ты уверенно владеешь этой темой."
-                    : score >= 7
-                    ? "Очень хороший результат! Осталось закрепить несколько моментов."
-                    : score >= 5
-                    ? "Хороший старт! Повтори ошибки и попробуй ещё раз."
-                    : "Не переживай — именно для этого мы и учимся. Повтори теорию и попробуй снова."}
-                </p>
-
-                <button
-                  type="button"
-                  onClick={restartTest}
-                  className="mt-6 rounded-full bg-lime px-7 py-3 font-semibold text-dark transition hover:scale-[1.03]"
-                >
-                  Попробовать ещё раз
-                </button>
-              </div>
-            )}
+          {/* BACK */}
+          <div className="mt-12 text-center">
+            <Link
+              href="/preparation"
+              className="font-semibold text-purple transition hover:underline"
+            >
+              ← Вернуться ко всем темам
+            </Link>
           </div>
-        </section>
-
-        {/* FOOTER */}
-        <div className="mt-12 pb-6 text-center">
-          <a
-            href="/preparation"
-            className="text-sm font-semibold text-purple hover:underline"
-          >
-            ← Вернуться к подготовке
-          </a>
         </div>
-      </div>
+      </section>
     </main>
   );
-}
-
-function TheoryCard({
-  number,
-  title,
-  children,
-}: {
-  number: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <article className="rounded-[2rem] bg-white p-6 shadow-sm sm:p-8">
-      <div className="flex items-center gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-lime text-sm font-bold text-dark">
-          {number}
-        </span>
-
-        <h2 className="font-display text-2xl font-semibold text-dark">
-          {title}
-        </h2>
-      </div>
-
-      <div className="mt-6 text-base leading-8 text-dark/70">
-        {children}
-      </div>
-    </article>
-  );
-}
-
-function Example({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mt-4 rounded-2xl bg-cream px-5 py-4 font-semibold text-purple">
-      {children}
-    </div>
-  );
-}
+}ыы
